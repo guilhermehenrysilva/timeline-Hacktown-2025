@@ -344,6 +344,49 @@
             text-decoration: underline;
         }
 
+        /* Link Post Instagram */
+        .instagram-news-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .instagram-news-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #805ad5;
+            transition: all 0.3s ease;
+        }
+
+        .instagram-news-item:hover {
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .instagram-news-item h4 {
+            color: #805ad5;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .instagram-news-link {
+            color: #4a5568;
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .instagram-news-link:hover {
+            color: #805ad5;
+            text-decoration: underline;
+        }
+
         .expand-btn {
             background: none;
             border: none;
@@ -844,10 +887,16 @@
                                 </div>
 
                             </div>
-                            <div class="ig-registros", style="text-align: center; margin-top: 25px;">
-                                <span>Instagram</span>
-                                <a href="https://www.instagram.com/p/DM5q55AuE2N/?img_index=3" target="_blank" class="instagram-link">Post do WorkShop AWS Amazon Bedrock</a>
+
+                            <div class="instagram-news-links">
+                                <div class="instagram-news-item">
+                                    <h4>👨‍💻 Instagram</h4>
+                                    <a href="https://www.instagram.com/p/DM5q55AuE2N/?img_index=3" target="_blank" class="instagram-news-link">
+                                        Post do WorkShop AWS Amazon Bedrock
+                                    </a>
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
