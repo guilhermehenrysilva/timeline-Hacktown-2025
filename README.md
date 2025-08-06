@@ -2,6 +2,9 @@
 
 Este projeto é uma página HTML interativa que apresenta uma linha do tempo detalhada sobre a minha participação no evento **HackTown 2025** — o maior evento de tecnologia, inovação e empreendedorismo do interior do Brasil.
 
+## Pagina hospedada no GitHub Pages
+https://guilhermehenrysilva.github.io/timeline-Hacktown-2025/
+
 ## 📄 Funcionalidades
 
 - 📅 Linha do tempo interativa com eventos e palestras de cada dia  
