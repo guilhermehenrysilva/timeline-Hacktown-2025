@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HackTown 2025 - Minha Jornada</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #2d3748;
+        }
+
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 800;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #667eea, #764ba2, #f093fb);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 60px 0;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(odd) {
+            animation-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(even) {
+            animation-delay: 0.4s;
+        }
+
+        .timeline-item.left {
+            text-align: right;
+            padding-right: calc(50% + 40px);
+        }
+
+        .timeline-item.right {
+            text-align: left;
+            padding-left: calc(50% + 40px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .timeline-dot.intro {
+            background: #667eea;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #667eea;
+        }
+
+        .timeline-dot.day31 {
+            background: #e53e3e;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #e53e3e;
+        }
+
+        .timeline-dot.day01 {
+            background: #38a169;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #38a169;
+        }
+
+        .timeline-dot.day02 {
+            background: #3182ce;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #3182ce;
+        }
+
+        .timeline-dot.day03 {
+            background: #805ad5;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #805ad5;
+        }
+
+        .timeline-dot.noticias {
+            background: #ed8936;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #ed8936;
+        }
+
+        .timeline-dot.brindes {
+            background: #f6ad55;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px #f6ad55;
+        }
+
+        .timeline-dot:hover {
+            transform: translateX(-50%) scale(1.3);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-card.intro {
+            border-left-color: #667eea;
+        }
+
+        .timeline-card.day31 {
+            border-left-color: #e53e3e;
+        }
+
+        .timeline-card.day01 {
+            border-left-color: #38a169;
+        }
+
+        .timeline-card.day02 {
+            border-left-color: #3182ce;
+        }
+
+        .timeline-card.day03 {
+            border-left-color: #805ad5;
+        }
+
+        .timeline-card.noticias {
+            border-left-color: #ed8936;
+        }
+
+        .timeline-card.brindes {
+            border-left-color: #f6ad55;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .day-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .intro .day-icon {
+            background: #667eea;
+        }
+
+        .day31 .day-icon {
+            background: #e53e3e;
+        }
+
+        .day01 .day-icon {
+            background: #38a169;
+        }
+
+        .day02 .day-icon {
+            background: #3182ce;
+        }
+
+        .day03 .day-icon {
+            background: #805ad5;
+        }
+
+        .noticias .day-icon {
+            background: #ed8936;
+        }
+
+        .brindes .day-icon {
+            background: #f6ad55;
+        }
+
+        .card-date {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #2d3748;
+            line-height: 1.3;
+        }
+
+        .card-preview {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .card-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            margin-top: 15px;
+        }
+
+        .card-details.expanded {
+            max-height: 1000px;
+        }
+
+        .details-content {
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .image-placeholder {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 2px dashed #cbd5e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .image-placeholder:hover {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #ebf8ff, #e6fffa);
+        }
+
+        .news-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .news-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #ed8936;
+            transition: all 0.3s ease;
+        }
+
+        .news-item:hover {
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .news-item h4 {
+            color: #ed8936;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .news-link {
+            color: #4a5568;
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .news-link:hover {
+            color: #ed8936;
+            text-decoration: underline;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .expand-btn:hover {
+            color: #4c51bf;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.intro {
+            background: #667eea;
+        }
+
+        .legend-dot.day31 {
+            background: #e53e3e;
+        }
+
+        .legend-dot.day01 {
+            background: #38a169;
+        }
+
+        .legend-dot.day02 {
+            background: #3182ce;
+        }
+
+        .legend-dot.day03 {
+            background: #805ad5;
+        }
+
+        .legend-dot.noticias {
+            background: #ed8936;
+        }
+
+        .legend-dot.brindes {
+            background: #f6ad55;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-item.left,
+            .timeline-item.right {
+                text-align: left;
+                padding-left: 60px;
+                padding-right: 20px;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-dot {
+                left: 30px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .timeline-container {
+                padding: 20px;
+            }
+
+            .image-gallery {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 10px;
+            }
+
+            .legend {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timeline-container">
+        <div class="header">
+            <h1>🚀 HackTown 2025</h1>
+            <p>Minha jornada no maior evento de tecnologia e inovação</p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-line"></div>
+
+            <!-- Introdução -->
+            <div class="timeline-item left">
+                <div class="timeline-dot intro"></div>
+                <div class="timeline-card intro">
+                    <div class="card-header">
+                        <div class="day-icon">🎯</div>
+                        <div class="card-date">Introdução</div>
+                    </div>
+                    <div class="card-title">HackTown 2025 - O Evento</div>
+                    <div class="card-preview">O maior evento de tecnologia, inovação e empreendedorismo do interior do Brasil. Uma experiência única de aprendizado e networking.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1p7LADyVaRth_0At1b4fQEMckgzzAGAzy&sz=s280" alt="…">
+                                </div>
+                                
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1KEPw2zN5CZGccB8WhtH8foyPorizzVsM&sz=s280" alt="…">
+                                </div>
+                        
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1a58rjwrxKOg4-wsp8oJOt_Qf77MTk-nT&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1W7gsbvb68C7wNLjFinwXNGW-s5AkdH2p&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1-WNwMi2_3bwsSKMEc4t5wv4KrFJ_kM-8&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1miqwFJo_6RX7h4698qkCWHxpB9Hypacv&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notícias -->
+            <div class="timeline-item right">
+                <div class="timeline-dot noticias"></div>
+                <div class="timeline-card noticias">
+                    <div class="card-header">
+                        <div class="day-icon">📰</div>
+                        <div class="card-date">Notícias</div>
+                    </div>
+                    <div class="card-title">Cobertura do Evento</div>
+                    <div class="card-preview">Matérias e artigos sobre o HackTown 2025 na mídia...</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="news-links">
+                                <div class="news-item">
+                                    <h4>📺 Portal G1</h4>
+                                    <a href="https://g1.globo.com/mg/triangulo-mineiro/noticia/hacktown-2025" target="_blank" class="news-link">
+                                        HackTown 2025: Maior evento de tecnologia do interior reúne milhares em Santa Rita do Sapucaí
+                                    </a>
+                                </div>
+                                <div class="news-item">
+                                    <h4>💼 Folha de S.Paulo</h4>
+                                    <a href="https://folha.uol.com.br/mercado/hacktown-2025-inovacao" target="_blank" class="news-link">
+                                        Vale do Silício brasileiro: HackTown movimenta R$ 50 milhões em negócios
+                                    </a>
+                                </div>
+                                <div class="news-item">
+                                    <h4>🚀 StartupBase</h4>
+                                    <a href="https://startupbase.com.br/hacktown-2025-startups" target="_blank" class="news-link">
+                                        200 startups apresentam soluções inovadoras no HackTown 2025
+                                    </a>
+                                </div>
+                                <div class="news-item">
+                                    <h4>💻 TechTudo</h4>
+                                    <a href="https://techtudo.globo.com/hacktown-inteligencia-artificial" target="_blank" class="news-link">
+                                        IA em foco: HackTown 2025 debate o futuro da inteligência artificial no Brasil
+                                    </a>
+                                </div>
+                                <div class="news-item">
+                                    <h4>📱 Olhar Digital</h4>
+                                    <a href="https://olhardigital.com.br/hacktown-2025-tecnologia" target="_blank" class="news-link">
+                                        HackTown 2025: Como Santa Rita do Sapucaí se tornou referência em inovação
+                                    </a>
+                                </div>
+                                <div class="news-item">
+                                    <h4>🏢 Valor Econômico</h4>
+                                    <a href="https://valor.globo.com/hacktown-investimentos-2025" target="_blank" class="news-link">
+                                        Investidores anunciam R$ 100 milhões em aportes durante HackTown 2025
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 31 de Julho -->
+            <div class="timeline-item left">
+                <div class="timeline-dot day31"></div>
+                <div class="timeline-card day31">
+                    <div class="card-header">
+                        <div class="day-icon">31</div>
+                        <div class="card-date">31 de Julho</div>
+                    </div>
+                    <div class="card-title">Além da gestão: A evolução do papel do líder moderno</div>
+                    <div class="card-preview">Em um mundo onde a complexidade supera a previsibilidade. Surge uma nova demanda por lideranças que saibam navegar entre execução eficiente e exploração constante. Esta palestra parte das provocações de Jim Highsmith sobre o papel emergente do líder moderno. Alguem que não apenas gerencia, mas que aprende, conecta e transforma.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+                                
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1Y8VmW3wRb5CnPGfdHTh1Rtu_6dOfXIVS&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1FBEXc0Vz9KCfFnaQy9Y9KTLRQxfx49gy&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1RMmdc15vOipTWlb3QHsX0tPKH0FT7byE&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1Oidj4NOrr2-UBWw21BFSlV_WT9z4fhLv&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=19ytJjIot0rCy21WAd0awnzKz1-HMm1sd&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1YqXFrhWTFWuUbqZZ5a3OBC4l7gl5evVB&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01 de Agosto - Palestra 1 -->
+            <div class="timeline-item right">
+                <div class="timeline-dot day01"></div>
+                <div class="timeline-card day01">
+                    <div class="card-header">
+                        <div class="day-icon">01</div>
+                        <div class="card-date">01 de Agosto</div>
+                    </div>
+                    <div class="card-title">Mulheres não choram, faturam</div>
+                    <div class="card-preview">Habilidades femininas, IA e as oportunidades de empreender no Brasil (para homens também)</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1Nh20S7EBWQ9cZhvwBQceq1tmxPYOR9Ra&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1YOXKheT4P0VuR34JFUGSARtzCS0eTX2a&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=14twnndqBZOs5T2YDYo6uJ8fH0i1-fVc-&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1kun5Qsg1wnhOAGtDf1Kj8aeAXzMb3Yhg&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=19KCTltXTRznKEzJkqF7263La8t2Is3tL&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01 de Agosto - Palestra 2 -->
+            <div class="timeline-item left">
+                <div class="timeline-dot day01"></div>
+                <div class="timeline-card day01">
+                    <div class="card-header">
+                        <div class="day-icon">01</div>
+                        <div class="card-date">01 de Agosto</div>
+                    </div>
+                    <div class="card-title">Construa uma aplicação de IA generativa na AWS</div>
+                    <div class="card-preview">Já pensou em criar uma aplicação de IA do zero no mesmo tempo que leva para fazer um miojo... Com o Amazon Q isso é possível.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+                                
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1mhsafpJKj2Qi9Cj8RiycCLoHIsAHPWQi&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1SdVXznVrApJX4oO-3fKY3D1RUs422uJD&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1lG58bT1H6M7DK1hqBsC0Ty-cyEjIxZRM&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1mp5yhc2W7GO3AFpoM9ooOTsx5HBKCYI9&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=10ltKsf88ShGxkdDWJqHxtWkvgagmh-NT&sz=s200" alt="…">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 01 de Agosto - Palestra 3 -->
+            <div class="timeline-item right">
+                <div class="timeline-dot day01"></div>
+                <div class="timeline-card day01">
+                    <div class="card-header">
+                        <div class="day-icon">01</div>
+                        <div class="card-date">01 de Agosto</div>
+                    </div>
+                    <div class="card-title">Buscando sentido no trabalho na era da IA</div>
+                    <div class="card-preview">Painel onde será discutido o sentido do trabalho diante das mudanças comportamentais e tecnologicas atuais. O mundo do trabalho e a relação de significado que as pessoas estabelecem com ele tem sofrido grandes mudanças recentes. E agora chega a hyperautomação e a IA e exponencializa essa questão na medida que pode tornar o trabalho desnecessario. Diante deste cenário, a ideia é discutir com 3 painelistas como lidar com tudo isso.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+                                
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1C-J0aCCy4tc-ElEAbWkC9mRE55DC_Ce-&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1mRC7SfSc11N29sku3Mq3l9eayOtAUX91&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1fL5OVcFrEFtgOmquP4VhSzkaF4mfTeTn&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1yvGJ9jxCrhWvkzAkDv36R4AL-bP2k01M&sz=s280" alt="…">
+                                </div>    
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1vUJrgBk6m6YvAtKBtGIaR5K65JKS0Q-O&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1C7LH-7ypZTNCAOecyOB2WVqHuUi4rJRF&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 02 de Agosto - Palestra 1 -->
+            <div class="timeline-item left">
+                <div class="timeline-dot day02"></div>
+                <div class="timeline-card day02">
+                    <div class="card-header">
+                        <div class="day-icon">02</div>
+                        <div class="card-date">02 de Agosto</div>
+                    </div>
+                    <div class="card-title">5 pilares a serem subidos para dominar o tráfego pago</div>
+                    <div class="card-preview">Tráfego não é sobre botão, é sobre base. Nessa palestra, Pedro Sobral apresenta os 5 pilares que sustentam o trabalho dos gestores de trafego que jogam o jogo de verdade. Aqueles que constroem audiencia, criam comunidade, vendem todos os dias. Sem firulas e tecnicas secretas, apenas o dominio dos principios atemporais do tráfego pago.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1G__hYgV-mzqjc1z9EeGGVUAG_i7aXFEe&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1hmV4rFsNKg7T37DC6qeZdMVSw-GCUsd5&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 02 de Agosto - Palestra 2 -->
+            <div class="timeline-item right">
+                <div class="timeline-dot day02"></div>
+                <div class="timeline-card day02">
+                    <div class="card-header">
+                        <div class="day-icon">02</div>
+                        <div class="card-date">02 de Agosto</div>
+                    </div>
+                    <div class="card-title">Como construir seu agente de IA</div>
+                    <div class="card-preview">Agentspace Google Cloud: Unificamos Busca, Gen AI e Agente para revolucionar suas operações e acelerar o negocio. Transformamos sistemas fragmentados com IA responsavel. Mais de 100 conectores e conhecimento exclusivo.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1XiisEJZ6ZoFNixrtV-qHozNYIcwonRT0&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1AAvwmPtujJHKEAhiiJoG_VFW3q_5F3uZ&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1u9gJTnZy9rGE3xFxMXn8wIUrsPm9zZoi&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1p73jpUIlFRcNnKdXceaD1SdkUqYtGhKf&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1I5CdAazX4xoVPUQY1Mt-cHYJY4xufV_W&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <iframe src="https://drive.google.com/file/d/1oo58kB7HrlGGLMwW7636lERqE-lL8p63/preview" width="200" height="280" allow="autoplay"></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 de Agosto - Palestra 1 -->
+            <div class="timeline-item left">
+                <div class="timeline-dot day03"></div>
+                <div class="timeline-card day03">
+                    <div class="card-header">
+                        <div class="day-icon">03</div>
+                        <div class="card-date">03 de Agosto</div>
+                    </div>
+                    <div class="card-title">AWS Vibe Coding DOJO: Crie com IA e leve brindes AWS exclusivos!</div>
+                    <div class="card-preview">Venha participar de uma experiencia unica no HackTown onde a programação encontra a IA! No Vibe Coding Dojo com Amazon Q Developer CLI, você vai mergulhar em um ambiente divertido, colaborativo e dinamica, usando as mais recentes ferramentas de IA da Amazon para criar soluções reais.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1JnZniI5Kn0a80293GKfVQk28QzemF7JV&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=10QfaOCZLzMeS1lHULp8MZ6YlplBLYS3L&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1ODA-jzLrjSDkUTyIHwx6wU8lH-j2J9WW&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1nRoUcRFT92tI3H84pHA-pkQM-I0ktcgy&sz=s280" alt="…">
+                                </div>
+
+                                <p> Registros </p> 
+                                <p><a href="https://www.instagram.com/p/DM5q55AuE2N/?img_index=3" target="_blank" class="instagram-link">Postagem do WorkShop AWS Vibe Coding DOJO</a></p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 de Agosto - Palestra 2 -->
+            <div class="timeline-item right">
+                <div class="timeline-dot day03"></div>
+                <div class="timeline-card day03">
+                    <div class="card-header">
+                        <div class="day-icon">03</div>
+                        <div class="card-date">03 de Agosto</div>
+                    </div>
+                    <div class="card-title">O que você faria com um dia a mais na semana?</div>
+                    <div class="card-preview">O trabalho está quebrado. Não há comunicação adequada, não há organização. Quanto mais improdutivo você é mais retrabalho você tem. Centralizar seu trabalho em um só lugar, com fluxos personalizados para o seu cenario e com agentes, de IA que te auxiliam em uma rotina mais produtiva, faz você ganhar um dia a mais na sua semana. Então, o que você faria com esse tempo extra?</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1wk4zDReoZgd_1158ZajLtjCctmDRWQw8&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1I06zZKeLdJQBpMbcNUWvh4ro0NCeyWqG&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1a1EXf_OM7mdkUVGIRUum5D229iSq1pZ8&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 03 de Agosto - Palestra 3 -->
+            <div class="timeline-item left">
+                <div class="timeline-dot day03"></div>
+                <div class="timeline-card day03">
+                    <div class="card-header">
+                        <div class="day-icon">03</div>
+                        <div class="card-date">03 de Agosto</div>
+                    </div>
+                    <div class="card-title">Desrobotizando pessoas e humanizando robôs, uma jornada de IA com sentido</div>
+                    <div class="card-preview">explora como a inteligência artificial pode ser usada para liberar os seres humanos de tarefas repetitivas e mecânicas, permitindo-lhes focar em atividades mais criativas e significativas. Ao mesmo tempo, ele discute a importância de desenvolver a IA de forma ética e responsável, infundindo nos robôs a capacidade de interagir de maneira mais natural e empática. A jornada proposta busca um equilíbrio, onde a tecnologia serve para potencializar a essência humana, enquanto a IA é moldada por valores humanos, criando um futuro onde a colaboração entre pessoas e máquinas é mais harmônica e com propósito.</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1x54Ab6wMwqXi_rPRqdwCAtmM4-pepY9m&sz=s280" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1iaMWZzRPAZBo5TnRTSG-eeWWWhZ9qYEt&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1uyV6a0YGk64Nu1VeQ_Ivdy-SgXdmA887&sz=s280" alt="…">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brindes -->
+            <div class="timeline-item right">
+                <div class="timeline-dot brindes"></div>
+                <div class="timeline-card brindes">
+                    <div class="card-header">
+                        <div class="day-icon">🎁</div>
+                        <div class="card-date">Brindes</div>
+                    </div>
+                    <div class="card-title">Brindes</div>
+                    <div class="card-preview">Drops do evento =)</div>
+                    <button class="expand-btn" onclick="toggleDetails(this)">Learn More ▼</button>
+                    <div class="card-details">
+                        <div class="details-content">
+                            <div class="image-gallery">
+
+                                <div class="image-placeholder">
+                                    <img src="https://drive.google.com/thumbnail?id=1gAJihlk6RX2o7tuxjqp-ldO-c8dmMFVp&sz=s200" alt="…">
+                                </div>
+
+                                <div class="image-placeholder">
+                                    <iframe src="https://drive.google.com/file/d/1VALxP9_dBEsn26ILQI8YP672l85iCZFB/preview" width="200" height="280" allow="autoplay"></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot intro"></div>
+                <span>Introdução</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot day31"></div>
+                <span>31 de Julho</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot day01"></div>
+                <span>01 de Agosto</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot day02"></div>
+                <span>02 de Agosto</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot day03"></div>
+                <span>03 de Agosto</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot noticias"></div>
+                <span>Notícias</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot brindes"></div>
+                <span>Brindes</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetails(button) {
+            const details = button.nextElementSibling;
+            const isExpanded = details.classList.contains('expanded');
+            
+            if (isExpanded) {
+                details.classList.remove('expanded');
+                button.textContent = 'Learn More ▼';
+            } else {
+                details.classList.add('expanded');
+                button.textContent = 'Show Less ▲';
+            }
+        }
+
+        // Add smooth scrolling animation on load
+        window.addEventListener('load', function() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+    // Modal de imagem
+    document.querySelectorAll('.image-placeholder img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', () => {
+            const highResUrl = img.src.replace(/&sz=\w+/, '&sz=s1000');
+            document.getElementById('modalImage').src = highResUrl;
+            document.getElementById('imageModal').style.display = 'flex';
+        });
+    });
+
+    // Fechar o modal ao clicar fora da imagem
+    document.getElementById('imageModal').addEventListener('click', (e) => {
+        if (e.target.id === 'imageModal') {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+    });
+
+    // Fechar o modal ao clicar no botão de fechar
+    document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('imageModal').style.display = 'none';
+    });
+});
+
+        // Add click handlers for timeline dots
+        document.querySelectorAll('.timeline-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                const card = this.parentElement.querySelector('.timeline-card');
+                const button = card.querySelector('.expand-btn');
+                toggleDetails(button);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96a9a9fa561c9a86',t:'MTc1NDQzMjIzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<!-- Modal para visualização de imagem em tamanho maior -->
+<div id="imageModal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.8); align-items:center; justify-content:center;">
+    <button id="closeModal" style="position:absolute; top:20px; right:30px; font-size:2rem; color:white; background:none; border:none; cursor:pointer; z-index:10000;">&times;</button>
+    <img id="modalImage" src="" alt="Imagem ampliada" style="max-width:90%; max-height:90%; border-radius:10px; box-shadow: 0 0 20px rgba(255,255,255,0.2);">
+</div>
+
+</body>
+</html>
